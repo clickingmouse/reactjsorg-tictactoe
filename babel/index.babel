@@ -1,20 +1,23 @@
-class Square extends React.Component{
+//class Square extends React.Component{
+function Square(props){
  // constructor(props){
 //    super(props);
 //    this.state={
 //      value:null
 //    };//this.state
 //  }//constructor
-  render () {
+//  render () {
     return (
 //    <button className="squarebtn" onClick={()=>this.setState( {value:'X'})}>
-      <button className="squarebtn" onClick={()=>this.props.onClick()}>
-        {this.props.value}
+      // "props.onClick" not "...onClick()" to pass it, not call it immediately
+      <button className="squarebtn" onClick={props.onClick}>
+{props.value}
+       
         </button>
     );     
 //  }// constructor 
 }
-}
+
 ////////////////////////////////////////////
 class Board extends React.Component{
   constructor(props){
@@ -23,14 +26,20 @@ class Board extends React.Component{
   // better to set state of all children at parent to allow descendant propogation  
     this.state ={
       squares: Array(9).fill(null),
+      xIsnext:true,
     };
     
   }
   
   handleClick(i){
     const squares=this.state.squares.slice();
-    squares[i]='X';
-    this.setState({squares:squares});
+    // flip value
+    squares[i]= (this.state.xIsNext?'X':'O');
+    this.setState({squares:squares,
+                   xIsNext:!this.state.xIsNext,
+                  
+                  
+                  });
     
   }
   
@@ -49,7 +58,7 @@ class Board extends React.Component{
 
 
 render (){
-  const status ='Next player: X';
+  const status ='Next player:' + (this.state.xIsNext ? 'X':'O');
   return(
   <div>
       <div className="status">{status}</div>
