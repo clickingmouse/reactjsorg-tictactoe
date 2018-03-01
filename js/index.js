@@ -16,58 +16,101 @@ var Square = function (_React$Component) {
   }
 
   _createClass(Square, [{
-    key: "render",
+    key: 'render',
+
+    // constructor(props){
+    //    super(props);
+    //    this.state={
+    //      value:null
+    //    };//this.state
+    //  }//constructor
     value: function render() {
-      return React.createElement("button", { className: "squarebtn" });
+      var _this2 = this;
+
+      return (
+        //    <button className="squarebtn" onClick={()=>this.setState( {value:'X'})}>
+        React.createElement(
+          'button',
+          { className: 'squarebtn', onClick: function onClick() {
+              return _this2.props.onClick();
+            } },
+          this.props.value
+        )
+      );
+      //  }// constructor 
     }
   }]);
 
   return Square;
 }(React.Component);
+////////////////////////////////////////////
+
 
 var Board = function (_React$Component2) {
   _inherits(Board, _React$Component2);
 
-  function Board() {
+  function Board(props) {
     _classCallCheck(this, Board);
 
-    return _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).apply(this, arguments));
+    // better to set state of all children at parent to allow descendant propogation  
+    var _this3 = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
+
+    _this3.state = {
+      squares: Array(9).fill(null)
+    };
+
+    return _this3;
   }
 
   _createClass(Board, [{
-    key: "renderSquare",
-    value: function renderSquare(i) {
-      return React.createElement(Square, null);
+    key: 'handleClick',
+    value: function handleClick(i) {
+      var squares = this.state.squares.slice();
+      squares[i] = 'X';
+      this.setState({ squares: squares });
     }
   }, {
-    key: "render",
+    key: 'renderSquare',
+    value: function renderSquare(i) {
+      var _this4 = this;
+
+      //this to allow passing value prop to square
+      // parenthises added after return to avoid auto ; insertion
+      //pass down a function to children when clicked
+      return React.createElement(Square, {
+        value: this.state.squares[i], onClick: function onClick() {
+          return _this4.handleClick(i);
+        } });
+    }
+  }, {
+    key: 'render',
     value: function render() {
       var status = 'Next player: X';
       return React.createElement(
-        "div",
+        'div',
         null,
         React.createElement(
-          "div",
-          { className: "status" },
+          'div',
+          { className: 'status' },
           status
         ),
         React.createElement(
-          "div",
-          { className: "board-row" },
+          'div',
+          { className: 'board-row' },
           this.renderSquare(0),
           this.renderSquare(1),
           this.renderSquare(2)
         ),
         React.createElement(
-          "div",
-          { className: "board-row" },
+          'div',
+          { className: 'board-row' },
           this.renderSquare(3),
           this.renderSquare(4),
           this.renderSquare(5)
         ),
         React.createElement(
-          "div",
-          { className: "board-row" },
+          'div',
+          { className: 'board-row' },
           this.renderSquare(6),
           this.renderSquare(7),
           this.renderSquare(8)
@@ -90,21 +133,21 @@ var Game = function (_React$Component3) {
   }
 
   _createClass(Game, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { className: "game" },
+        'div',
+        { className: 'game' },
         React.createElement(
-          "div",
-          { className: "game-board" },
+          'div',
+          { className: 'game-board' },
           React.createElement(Board, null)
         ),
         React.createElement(
-          "div",
-          { className: "game-info" },
-          React.createElement("div", null),
-          React.createElement("ol", null)
+          'div',
+          { className: 'game-info' },
+          React.createElement('div', null),
+          React.createElement('ol', null)
         )
       ); //end return
     }

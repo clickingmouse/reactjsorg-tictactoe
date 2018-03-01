@@ -1,22 +1,48 @@
 class Square extends React.Component{
-  render(){
-    return(
-    <button className="squarebtn">
-        {/*TODO*/}
+ // constructor(props){
+//    super(props);
+//    this.state={
+//      value:null
+//    };//this.state
+//  }//constructor
+  render () {
+    return (
+//    <button className="squarebtn" onClick={()=>this.setState( {value:'X'})}>
+      <button className="squarebtn" onClick={()=>this.props.onClick()}>
+        {this.props.value}
         </button>
+    );     
+//  }// constructor 
+}
+}
+////////////////////////////////////////////
+class Board extends React.Component{
+  constructor(props){
+    super(props);
     
-    );    
+  // better to set state of all children at parent to allow descendant propogation  
+    this.state ={
+      squares: Array(9).fill(null),
+    };
     
   }
   
-}
-
-
-
-
-class Board extends React.Component{
+  handleClick(i){
+    const squares=this.state.squares.slice();
+    squares[i]='X';
+    this.setState({squares:squares});
+    
+  }
+  
+  
   renderSquare(i){
-    return<Square />;
+    //this to allow passing value prop to square
+    // parenthises added after return to avoid auto ; insertion
+        //pass down a function to children when clicked
+    return(
+      <Square 
+        value={ this.state.squares[i] } onClick = {()=>this.handleClick(i)} />
+  );
   }
   
 
